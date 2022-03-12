@@ -1,0 +1,9 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+
+# detalhando os nodes: 1 master e 3 workers
+nodes:
+- role: control-plane # o cara que controla o K8s (master)
+- role: worker
+- role: worker
+- role: worker 

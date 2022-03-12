@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod # tipo de objeto q estamos criando
+metadata:
+  name: "goserver" # nome do pod
+  # etiqueta que ajudam a fazer filtros, buscas, regras, etc.
+  labels:
+    app: "goserver"
+spec:
+  # via de regra eh um container por pod
+  containers:
+    - name: "goserver"
+      image: "rodrigotamura/hello-go:latest"

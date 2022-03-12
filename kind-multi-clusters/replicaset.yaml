@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: goserver
+  labels:
+    app: goserver
+spec:
+  selector:  # seleciona a label
+    matchLabels:
+      app: goserver
+    replicas: 2 # qnt de replicas que queremos
+    # agora precisamos indicar os pods, e podemos fazer isso via templates
+    # na verdade seria a especificação que está no arquivo de pod.yaml
+    template:
+      metadata:
+        name: "goserver" # nome do pod
+        # etiqueta que ajudam a fazer filtros, buscas, regras, etc.
+        labels:
+          app: "goserver"
+      spec:
+        # via de regra eh um container por pod
+        containers:
+          - name: "goserver"
+            image: "rodrigotamura/hello-go:latest" 
