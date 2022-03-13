@@ -24,6 +24,12 @@ spec:
           image: "rodrigotamura/hello-go:v4"
           env:
             - name: NAME
-              value: "Tamura"
+              valueFrom:
+                configMapKeyRef:
+                  name: goserver-env
+                  key: NAME 
             - name: AGE
-              value: "35" 
+              valueFrom:
+                configMapKeyRef:
+                  name: goserver-env
+                  key: AGE
