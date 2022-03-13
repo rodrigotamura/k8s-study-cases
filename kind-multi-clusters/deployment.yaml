@@ -21,7 +21,7 @@ spec:
       # via de regra eh um container por pod
       containers:
         - name: "goserver"
-          image: "rodrigotamura/hello-go:v8"
+          image: "rodrigotamura/hello-go:v9"
           readinessProbe:
             httpGet:
               path: /healthz
@@ -32,18 +32,19 @@ spec:
             initialDelaySeconds: 10 # aguarda x segundos para iniciar verificação
                                     # pode ser usado tbm no livenessProbe
 
-          # livenessProbe:
-          #   httpGet: # lembrando que temos http | tcp | command
-          #     path: /healthz
-          #     port: 8000 # porta do container, não da service
-          #   periodSeconds: 5 # tempo em segundos que será realizada a verificação
-          #   # as propriedades a seguir são opcionais e assumem um default - ver doc
-          #   failureThreshold: 3 # qnt vezes de quando der problema reinicia o pod
-          #   timeoutSeconds: 1 # se exceder, conta como um failure
-          #   # aqui temos que ficar mais atento, pois se o endpoint for um fluxo
-          #   # que tenha um banco de dados, por exemplo, este tempo será 
-          #   # considerado também
-          #   successThreshold: 1 # qnt vezes testa e dá tudo ok para aplicação estar saudável
+          livenessProbe:
+            httpGet: # lembrando que temos http | tcp | command
+              path: /healthz
+              port: 8000 # porta do container, não da service
+            periodSeconds: 5 # tempo em segundos que será realizada a verificação
+            # as propriedades a seguir são opcionais e assumem um default - ver doc
+            failureThreshold: 3 # qnt vezes de quando der problema reinicia o pod
+            timeoutSeconds: 1 # se exceder, conta como um failure
+            # aqui temos que ficar mais atento, pois se o endpoint for um fluxo
+            # que tenha um banco de dados, por exemplo, este tempo será 
+            # considerado também
+            successThreshold: 1 # qnt vezes testa e dá tudo ok para aplicação estar saudável
+            initialDelaySeconds: 15
 
           envFrom:
             - configMapRef:

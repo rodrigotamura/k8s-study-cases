@@ -49,13 +49,8 @@ func HealthZ(w http.ResponseWriter, r *http.Request) {
 	// com o tempo atual
 	duration := time.Since(startedAt)
 
-	if duration.Seconds() < 10 {
+	if duration.Seconds() < 10 || duration.Seconds() > 25 {
 		// se a aplicação não alcançar 10 segundos após a criação, estoura erro 500
-		w.WriteHeader(500)
-		w.Write([]byte(fmt.Sprintf("Duration: %v", duration.Seconds())))
-	}
-
-	if duration.Seconds() > 25 {
 		// quando passar 25 segundos que a minha aplicação está no ar
 		// vamos retornar um header com erro 500
 		w.WriteHeader(500)
