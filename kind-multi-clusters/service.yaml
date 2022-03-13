@@ -11,5 +11,6 @@ spec:
   type: ClusterIP
   ports: # quais portas vamos acessar
   - name: goserver-service # nome é opcional no padrao <nome>-<nome>
-    port: 80
+    port: 80 # porta do Service
+    targetPort: 8000 # porta que o service acessará a aplicacao
     protocol: TCP

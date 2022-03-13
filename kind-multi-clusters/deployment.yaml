@@ -21,4 +21,4 @@ spec:
       # via de regra eh um container por pod
       containers:
         - name: "goserver"
-          image: "rodrigotamura/hello-go:v2" 
+          image: "rodrigotamura/hello-go:v3" 
