@@ -21,18 +21,18 @@ spec:
       # via de regra eh um container por pod
       containers:
         - name: "goserver"
-          image: "rodrigotamura/hello-go:v4"
+          image: "rodrigotamura/hello-go:v5"
           envFrom:
             - configMapRef:
                 name: goserver-env # indicar o nome do configFile
-          # env:
-          #   - name: NAME
-          #     valueFrom:
-          #       configMapKeyRef:
-          #         name: goserver-env
-          #         key: NAME 
-          #   - name: AGE
-          #     valueFrom:
-          #       configMapKeyRef:
-          #         name: goserver-env
-          #         key: AGE
+          
+          volumeMounts:
+            - mountPath: "/go/myfamily" # onde o volume será montado no container 
+              name: config # nome do volumes.name
+      volumes:
+        - name: config # aqui pode colocar o nome que quiser
+          configMap:
+            name: configmap-family # nome do config map criado
+            items: # quais itens queremos montar para esse volume
+              - key: members # data mapeado lá no configmap-family.yaml
+                path: "family.txt" # nome do arquivo que será criado
