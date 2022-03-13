@@ -21,14 +21,17 @@ spec:
       # via de regra eh um container por pod
       containers:
         - name: "goserver"
-          image: "rodrigotamura/hello-go:v5"
+          image: "rodrigotamura/hello-go:v6"
           envFrom:
             - configMapRef:
                 name: goserver-env # indicar o nome do configFile
+            - secretRef:
+                name: goserver-secret # indicar o nome do secret aplicado
           
           volumeMounts:
             - mountPath: "/go/myfamily" # onde o volume será montado no container 
               name: config # nome do volumes.name
+
       volumes:
         - name: config # aqui pode colocar o nome que quiser
           configMap:
