@@ -22,15 +22,20 @@ spec:
       containers:
         - name: "goserver"
           image: "rodrigotamura/hello-go:v9"
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            periodSeconds: 3
+            failureThreshold: 30
+
           readinessProbe:
             httpGet:
               path: /healthz
               port: 8000
             periodSeconds: 3
             failureThreshold: 1
-            timeoutSeconds: 1
-            initialDelaySeconds: 10 # aguarda x segundos para iniciar verificação
-                                    # pode ser usado tbm no livenessProbe
+            # initialDelaySeconds: 15 # não precisa mais pois o startupProbe já verificou
 
           livenessProbe:
             httpGet: # lembrando que temos http | tcp | command
@@ -44,7 +49,7 @@ spec:
             # que tenha um banco de dados, por exemplo, este tempo será 
             # considerado também
             successThreshold: 1 # qnt vezes testa e dá tudo ok para aplicação estar saudável
-            initialDelaySeconds: 15
+            # initialDelaySeconds: 15 # não precisa mais pois o startupProbe já verificou
 
           envFrom:
             - configMapRef:
