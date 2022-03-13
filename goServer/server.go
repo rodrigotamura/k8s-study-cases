@@ -6,9 +6,13 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
 
+var startedAt = time.Now()
+
 func main() {
+	http.HandleFunc("/healthz", HealthZ)
 	http.HandleFunc("/configmap", ConfigMap)
 	http.HandleFunc("/", Hello)
 	http.HandleFunc("/secret", Secret)
@@ -37,4 +41,22 @@ func Secret(w http.ResponseWriter, r *http.Request) {
 	password := os.Getenv("PASSWORD")
 
 	fmt.Fprintf(w, "User: %s. Pass: %s.", user, password)
+}
+
+func HealthZ(w http.ResponseWriter, r *http.Request) {
+
+	// calculando tempo que iniciou o fluxo da aplicação
+	// com o tempo atual
+	duration := time.Since(startedAt)
+
+	if duration.Seconds() > 25 {
+		// quando passar 25 segundos que a minha aplicação está no ar
+		// vamos retornar um header com erro 500
+		w.WriteHeader(500)
+		w.Write([]byte(fmt.Sprintf("Duration: %v", duration.Seconds())))
+	} else {
+		w.WriteHeader(200)
+		w.Write([]byte(fmt.Sprintf("ok")))
+	}
+
 }

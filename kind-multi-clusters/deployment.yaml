@@ -21,7 +21,7 @@ spec:
       # via de regra eh um container por pod
       containers:
         - name: "goserver"
-          image: "rodrigotamura/hello-go:v6"
+          image: "rodrigotamura/hello-go:v7"
           envFrom:
             - configMapRef:
                 name: goserver-env # indicar o nome do configFile
