@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: goserver-service
+spec:
+  selector: # resp. por filtra todos os Pods incorporados neste serviço
+            # que vai dar match lá no deployment.yaml, em spec.selector.matchLabel
+    app: goserver
+  # abaixo setando o type de service, ao qual temos 4 tipos:
+  # (1) ClusterIP, (2) NodePort, (3) Load Balancer e (4) ExternalName
+  type: NodePort
+  ports: # quais portas vamos acessar
+  - name: goserver-service # nome é opcional no padrao <nome>-<nome>
+    port: 80 # porta do Service
+    targetPort: 8000 # porta que o service acessará a aplicacao
+    protocol: TCP
+    nodePort: 30001 # range entre 30000 a 32768. Se não informar pega aleatório
