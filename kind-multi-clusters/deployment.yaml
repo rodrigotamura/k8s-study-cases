@@ -8,7 +8,7 @@ spec:
   selector:  # seleciona a label
     matchLabels:
       app: goserver
-  replicas: 10 # qnt de replicas que queremos
+  replicas: 1 # qnt de replicas que queremos
   # agora precisamos indicar os pods, e podemos fazer isso via templates
   # na verdade seria a especificação que está no arquivo de pod.yaml
   template:
@@ -21,4 +21,9 @@ spec:
       # via de regra eh um container por pod
       containers:
         - name: "goserver"
-          image: "rodrigotamura/hello-go:v3" 
+          image: "rodrigotamura/hello-go:v4"
+          env:
+            - name: NAME
+              value: "Tamura"
+            - name: AGE
+              value: "35" 
