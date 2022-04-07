@@ -21,48 +21,50 @@ spec:
       # via de regra eh um container por pod
       containers:
         - name: "goserver"
-          image: "rodrigotamura/hello-go:v9"
+          image: "rodrigotamura/hello-go:v10"
 
           resources:
             requests: # o quanto que o container exige como MINIMO para funcionar
                       # se não tivermos este minimo, esse container nem vai rodar
                       # ESTAMOS RESERVANDO ESTES RECURSOS 
               # cpu: 100m # pegando no minimo 100 milicores do cluster
-              cpu: "0.3" # 30%
+              # cpu: "0.3" # 30%
+              cpu: "0.05" # 5%
               memory: 20Mi # pegando no minimo 20 MB do cluster
             limits: # até onde esse pod poderá consumir no cluster
               # cpu: 500m
-              cpu: "0.3" # 30%
+              # cpu: "0.3" # 30%
+              cpu: "0.05" # 5%
               memory: 25Mi
 
-          startupProbe:
-            httpGet:
-              path: /healthz
-              port: 8000
-            periodSeconds: 4
-            failureThreshold: 30
+          # startupProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: 8000
+          #   periodSeconds: 4
+          #   failureThreshold: 30
 
-          readinessProbe:
-            httpGet:
-              path: /healthz
-              port: 8000
-            periodSeconds: 3
-            failureThreshold: 1
-            # initialDelaySeconds: 15 # não precisa mais pois o startupProbe já verificou
+          # readinessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: 8000
+          #   periodSeconds: 3
+          #   failureThreshold: 1
+          #   # initialDelaySeconds: 15 # não precisa mais pois o startupProbe já verificou
 
-          livenessProbe:
-            httpGet: # lembrando que temos http | tcp | command
-              path: /healthz
-              port: 8000 # porta do container, não da service
-            periodSeconds: 5 # tempo em segundos que será realizada a verificação
-            # as propriedades a seguir são opcionais e assumem um default - ver doc
-            failureThreshold: 1 # qnt vezes de quando der problema reinicia o pod
-            timeoutSeconds: 1 # se exceder, conta como um failure
-            # aqui temos que ficar mais atento, pois se o endpoint for um fluxo
-            # que tenha um banco de dados, por exemplo, este tempo será 
-            # considerado também
-            successThreshold: 1 # qnt vezes testa e dá tudo ok para aplicação estar saudável
-            # initialDelaySeconds: 15 # não precisa mais pois o startupProbe já verificou
+          # livenessProbe:
+          #   httpGet: # lembrando que temos http | tcp | command
+          #     path: /healthz
+          #     port: 8000 # porta do container, não da service
+          #   periodSeconds: 5 # tempo em segundos que será realizada a verificação
+          #   # as propriedades a seguir são opcionais e assumem um default - ver doc
+          #   failureThreshold: 1 # qnt vezes de quando der problema reinicia o pod
+          #   timeoutSeconds: 1 # se exceder, conta como um failure
+          #   # aqui temos que ficar mais atento, pois se o endpoint for um fluxo
+          #   # que tenha um banco de dados, por exemplo, este tempo será 
+          #   # considerado também
+          #   successThreshold: 1 # qnt vezes testa e dá tudo ok para aplicação estar saudável
+          #   # initialDelaySeconds: 15 # não precisa mais pois o startupProbe já verificou
 
           envFrom:
             - configMapRef:
