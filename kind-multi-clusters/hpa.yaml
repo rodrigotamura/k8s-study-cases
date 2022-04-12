@@ -11,7 +11,7 @@ spec:
     kind: Deployment # quem será escalado
   minReplicas: 1 # qual o numero minimo de replicas que o hpa vai utilizar
                  # em prod, no minimo duas
-  maxReplicas: 5 # quando der 5 replicas, não escala mais
-  targetCPUUtilizationPercentage: 30 # quando chegar em 30% vai começar o processo de escala
+  maxReplicas: 30 # quando der 5 replicas, não escala mais
+  targetCPUUtilizationPercentage: 15 # quando chegar em 30% vai começar o processo de escala
                                      # grealmente o número será maior, mas aqui estamos aplicando somente para fins didaticos
                                     

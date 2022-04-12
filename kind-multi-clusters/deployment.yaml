@@ -73,10 +73,15 @@ spec:
                 name: goserver-secret # indicar o nome do secret aplicado
           
           volumeMounts:
+            - mountPath: "/go/pvc"
+              name: goserver-volume-pizza
             - mountPath: "/go/myfamily" # onde o volume será montado no container 
               name: config # nome do volumes.name
 
       volumes:
+        - name: goserver-volume-pizza # pode ser qualquer nome aqui
+          persistentVolumeClaim:
+            claimName: goserver-pvc # coloca o nome da claim criada
         - name: config # aqui pode colocar o nome que quiser
           configMap:
             name: configmap-family # nome do config map criado

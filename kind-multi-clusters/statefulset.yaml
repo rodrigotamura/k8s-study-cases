@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql  
+spec:
+  replicas: 5
+  serviceName: mysql-h #headless
+  # podManagementPolicy: Parallel # cria de forma paralela (default é em ordem)
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec: # do pod
+      containers:
+        - name: mysql
+          image: mysql/mysql-server:latest
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: root
