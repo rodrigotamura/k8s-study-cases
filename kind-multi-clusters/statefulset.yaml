@@ -3,9 +3,8 @@ kind: StatefulSet
 metadata:
   name: mysql  
 spec:
-  replicas: 5
-  serviceName: mysql-h #headless
-  # podManagementPolicy: Parallel # cria de forma paralela (default é em ordem)
+  replicas: 3
+  serviceName: mysql-h #headless - identico ao nome do servico mysql-service-h.yaml
   selector:
     matchLabels:
       app: mysql
