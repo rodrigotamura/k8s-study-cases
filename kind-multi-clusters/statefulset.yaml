@@ -19,3 +19,16 @@ spec:
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: root
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysql-volume
+
+  volumeClaimTemplates: # criar template de volume que será utilizado toda vez que houver escalamento
+  - metadata:
+      name: mysql-volume
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
