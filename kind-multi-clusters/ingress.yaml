@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1beta1 # sempre é bom verificar que versão que está
+kind: Ingress
+metadata:
+  name: ingress-host
+  annotations: # importante pq cada sistema que for utilizar este ingress 
+    kubernetes.io/ingress.class: "ngynx" # vai utilizar ingress do nginx
+    # pode ser do Kong por exemplo tbm
+spec:
+  rules:
+  - host: "ingress.fullcycle.com.br" # qual o host que vai usar esse ingress
+    https: # todos que acessarem via http...
+      paths:
+      - pathType: Prefix #... que tenha o prefixo...
+        path: "/" # quando acessar http://ingress.fullcycle.com.br/
+        backend: # qual nome do servico que queremos chamar quando cair nesta regra
+          serviceName: goserver-service
+          servicePort: 80
