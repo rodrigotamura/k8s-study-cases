@@ -12,6 +12,7 @@ spec:
       paths:
       - pathType: Prefix #... que tenha o prefixo...
         path: "/" # quando acessar http://ingress.fullcycle.com.br/
+        # path: "/teste" # quando acessar http://ingress.fullcycle.com.br/teste
         backend: # qual nome do servico que queremos chamar quando cair nesta regra
           serviceName: goserver-service
           servicePort: 80
