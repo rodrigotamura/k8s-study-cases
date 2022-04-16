@@ -4,6 +4,7 @@ metadata:
   name: goserver
   labels:
     app: goserver
+  namespace: desenvolvimento-pizza
 spec:
   selector:  # seleciona a label
     matchLabels:
