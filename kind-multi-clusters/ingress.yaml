@@ -5,6 +5,8 @@ metadata:
   annotations: # importante pq cada sistema que for utilizar este ingress 
     kubernetes.io/ingress.class: "ngynx" # vai utilizar ingress do nginx
     # pode ser do Kong por exemplo tbm
+    cert-manager.io/cluster-issuer: "letsencrypt" # nome do objeto ClusterIssuer (metadata.name)
+    ingress.kubernetes.io/force-ssl-redirect: "true" # converte http para https auto
 spec:
   rules:
   - host: "ingress.fullcycle.com.br" # qual o host que vai usar esse ingress
@@ -16,3 +18,8 @@ spec:
         backend: # qual nome do servico que queremos chamar quando cair nesta regra
           serviceName: goserver-service
           servicePort: 80
+
+  tls: # Precisamo falar no ingress indicnado os dominios que irao utilizar TLS
+    - hosts:
+      - "ingress.fullcycle.com.br"
+      secretName: letsencrypt-tls

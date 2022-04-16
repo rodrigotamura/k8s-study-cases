@@ -1,0 +1,17 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt
+  namespace: cert-manager
+spec:
+  acme: # tipo de certificado que iremos trabalhar
+    server: http://acme-v02.api.letsencrypt.org/directory # onde resolve, por causa do challenge
+    email: rodrigotamura@hotmail.com
+    privateKeySecretRef:
+      name: letsencrypt-tls # pode colocar o nome que quiser
+      # configura como vai conseguir utilisar o https baseado no cert que queremos
+      # neste caso precisamos falkar que iremos utilizar o certificado no ingress utilizando nginx
+    solvers:
+    - http01:
+      ingress:
+        class: nginx
