@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: nginx
+spec:
+  host: nginx-service #services do kubernetes
+  subsets: 
+    - name: v1 #está sendo referido no subset do virtual service
+      labels:
+        version: A #referente ao version configurado no deployment.yml
+    - name: v2 #está sendo referido no subset do virtual service
+      labels:
+        version: B #referente ao version configurado no deployment.yml
