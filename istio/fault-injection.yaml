@@ -1,0 +1,40 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: nginx
+spec:
+  hosts: #services do kubernetes
+  - nginx-service
+  http: # tipo de roteamento exemplo http, tcp e etc
+    - fault: # todas chamadas http responda com um delay de 10 segundos em 100% do trafego
+        delay:
+          fixedDelay: 5s
+          percentage:
+            value: 100
+        abort: # é um outro tipo fault que ira fazer o interrompimento do http status
+          httpStatus: 500
+          percentage:
+            value: 100 # para 100% do trafego
+      route: 
+      - destination:
+          host: nginx-service
+          subset: all # all é para todas requests  
+
+--- 
+
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: nginx
+spec:
+  host: nginx-service #services do kubernetes
+  trafficPolicy:
+    loadBalancer: 
+      consistentHash:
+        httpHeaderName: "x-user" 
+  subsets: 
+    - name: all 
+      labels:
+        app: nginx #todos os serviços que contém nginx
+      
+    
