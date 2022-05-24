@@ -6,9 +6,9 @@ metadata:
 spec:
   host: servicex-service.default.svc.cluster.local
   trafficPolicy:
-    outlierDetection:
-      # consecutive5xxErrors: 20
-      consecutiveGatewayErrors: 10
+    outlierDetection: 
+      # consecutive5xxErrors: 20 # vai ativar após 20 erros 5xx consecutivos
+      consecutiveGatewayErrors: 10 # no intervalo de 10 segundos
       interval: 20s
-      baseEjectionTime: 30s
-      maxEjectionPercent: 100
+      baseEjectionTime: 30s # que irá ejetar por 30 segundos 
+      maxEjectionPercent: 100 # 100% dos pod serão ejetados
