@@ -12,8 +12,27 @@ spec:
         protocol: http2
       hosts:
         - "*" # exemplo caso estejamos acessando esse cluster via host site.com.br
-  
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: nginx
+spec:
+  hosts: #services do kubernetes
+  - "*" # tem que ser igual o host configurado no gateway "bind"
+  gateways:
+  - ingress-gateway-k3s
 
+  http: #tipo de roteamento exemplo http, tcp e etc
+    - route: 
+      - destination:
+          host: nginx-service
+          subset: v1 # ele vem da Destination Rule  
+        weight: 90 #porcentagem que enviaremos as requisições
+      - destination:
+          host: nginx-service
+          subset: v2
+        weight: 10
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
