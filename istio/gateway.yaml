@@ -1,0 +1,36 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: ingress-gateway-k3s
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: http2
+      hosts:
+        - "*" # exemplo caso estejamos acessando esse cluster via host site.com.br
+  
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: nginx
+spec:
+  host: nginx-service #services do kubernetes
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN # define o algoritmo default caso n tenha definido o alg na subset
+  subsets: 
+    - name: v1 #está sendo referido no subset do virtual service
+      labels:
+        version: A #referente ao version configurado no deployment.yml
+      trafficPolicy:
+        loadBalancer:
+          simple: LEAST_CONN
+    - name: v2 #está sendo referido no subset do virtual service
+      labels:
+        version: B #referente ao version configurado no deployment.yml
