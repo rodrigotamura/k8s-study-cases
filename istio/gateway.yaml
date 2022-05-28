@@ -24,15 +24,20 @@ spec:
   - ingress-gateway-k3s
 
   http: #tipo de roteamento exemplo http, tcp e etc
-    - route: 
+    - match:
+      - uri:
+          prefix: "/b"
+      route: 
       - destination:
           host: nginx-service
-          subset: v1 # ele vem da Destination Rule  
-        weight: 90 #porcentagem que enviaremos as requisições
+          subset: v1 # ele vem da Destination Rule 
+    - match:
+      - uri:
+          prefix: "/"
+      route: 
       - destination:
           host: nginx-service
           subset: v2
-        weight: 10
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule

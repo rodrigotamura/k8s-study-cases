@@ -1,0 +1,47 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: ingress-gateway-k3s
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: http2
+      hosts:
+        - "*.fullcycle" # exemplo caso estejamos acessando esse cluster via host site.com.br
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: nginx-vs-a
+spec:
+  hosts: 
+  - "a.fullcycle" 
+  gateways:
+    - ingress-gateway-k3s
+
+  http: 
+    - route:
+      - destination:
+          host: nginx
+          subset: v1 
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: nginx-vs-b
+spec:
+  hosts: 
+  - "b.fullcycle" 
+  gateways:
+    - ingress-gateway-k3s
+
+  http: 
+    - route:
+      - destination:
+          host: nginx
+          subset: v2 
